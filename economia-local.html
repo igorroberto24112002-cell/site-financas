@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Economia Local</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+margin:0;
+padding:0;
+}
+
+nav{
+background:black;
+padding:15px;
+text-align:center;
+}
+
+nav a{
+color:white;
+margin:15px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:40px;
+}
+
+.card{
+background:white;
+color:black;
+padding:25px;
+margin:20px 0;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+button{
+padding:12px 20px;
+background:#2ecc71;
+border:none;
+color:white;
+font-weight:bold;
+border-radius:5px;
+cursor:pointer;
+}
+
+input{
+padding:10px;
+width:100%;
+margin-bottom:10px;
+}
+
+.links a{
+display:block;
+margin:10px 0;
+color:#2980b9;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html">Início</a>
+<a href="planejamento.html">Planejamento</a>
+<a href="calculadora.html">Calculadora</a>
+<a href="economia.html">Economia</a>
+<a href="economia-local.html">Economia Local</a>
+</nav>
+
+<div class="container">
+
+<h1>Economia Local Inteligente</h1>
+
+<div id="formLocal" class="card">
+
+<h2>Descobrir opções baratas perto de você</h2>
+
+<p>Informe sua cidade e bairro para encontrar:</p>
+
+<ul>
+<li>🏠 Aluguéis mais baratos</li>
+<li>🛒 Mercados próximos</li>
+<li>📢 Anúncios recentes</li>
+</ul>
+
+<input id="cidade" placeholder="Sua cidade">
+
+<input id="bairro" placeholder="Seu bairro">
+
+<button onclick="salvarLocal()">Buscar opções</button>
+
+</div>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+function salvarLocal(){
+
+let cidade = document.getElementById("cidade").value
+let bairro = document.getElementById("bairro").value
+
+if(cidade=="" || bairro==""){
+alert("Preencha cidade e bairro")
+return
+}
+
+localStorage.setItem("cidade",cidade)
+localStorage.setItem("bairro",bairro)
+
+mostrarResultados()
+
+}
+
+function mostrarResultados(){
+
+let cidade = localStorage.getItem("cidade")
+let bairro = localStorage.getItem("bairro")
+
+if(!cidade || !bairro) return
+
+document.getElementById("formLocal").style.display="none"
+
+let html = `
+
+<div class="card">
+
+<h2>📍 Região analisada</h2>
+
+<p><b>Cidade:</b> ${cidade}</p>
+
+<p><b>Bairro:</b> ${bairro}</p>
+
+</div>
+
+<div class="card links">
+
+<h2>🏠 Aluguéis baratos próximos</h2>
+
+<a target="_blank" href="https://www.olx.com.br/imoveis/aluguel/estado?q=${bairro}%20${cidade}">
+Ver alugueis na OLX
+</a>
+
+<a target="_blank" href="https://www.facebook.com/marketplace/search/?query=aluguel%20${bairro}%20${cidade}">
+Ver alugueis no Facebook Marketplace
+</a>
+
+<a target="_blank" href="https://www.google.com/search?q=aluguel+barato+${bairro}+${cidade}">
+Pesquisar no Google
+</a>
+
+</div>
+
+<div class="card links">
+
+<h2>🛒 Mercados próximos</h2>
+
+<a target="_blank" href="https://www.google.com/maps/search/mercado+${bairro}+${cidade}">
+Ver mercados no Google Maps
+</a>
+
+<a target="_blank" href="https://www.google.com/maps/search/atacadista+${bairro}+${cidade}">
+Ver atacadistas próximos
+</a>
+
+<a target="_blank" href="https://www.google.com/maps/search/feira+livre+${bairro}+${cidade}">
+Ver feiras livres
+</a>
+
+</div>
+
+`
+
+document.getElementById("resultado").innerHTML = html
+
+}
+
+mostrarResultados()
+
+</script>
+
+</body>
+</html>

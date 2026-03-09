@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Planejamento Financeiro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#0f172a,#020617);
+color:#e5e7eb;
+}
+
+header{
+background:rgba(2,6,23,0.9);
+padding:20px 10%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#22c55e;
+}
+
+nav a{
+margin-left:25px;
+text-decoration:none;
+color:#e5e7eb;
+}
+
+nav a:hover{
+color:#22c55e;
+}
+
+.container{
+padding:70px 10%;
+max-width:1200px;
+margin:auto;
+}
+
+.titulo{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.sub{
+color:#94a3b8;
+margin-bottom:40px;
+}
+
+.card{
+background:#111827;
+padding:35px;
+border-radius:14px;
+margin-bottom:30px;
+box-shadow:0 15px 40px rgba(0,0,0,0.6);
+}
+
+.etapa{
+background:#020617;
+padding:25px;
+border-radius:12px;
+margin-bottom:25px;
+border-left:6px solid #22c55e;
+}
+
+.etapa h3{
+color:#22c55e;
+margin-bottom:10px;
+}
+
+.etapa p{
+line-height:1.7;
+color:#cbd5f5;
+}
+
+.lista{
+margin-top:10px;
+padding-left:18px;
+}
+
+.lista li{
+margin-bottom:6px;
+}
+
+.box{
+margin-top:15px;
+padding:15px;
+background:#1f2937;
+border-radius:8px;
+}
+
+.banco{
+background:#1f2937;
+padding:15px;
+margin-top:10px;
+border-radius:8px;
+}
+
+.banco strong{
+color:#22c55e;
+}
+
+img{
+width:100%;
+border-radius:12px;
+margin-top:30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">ENRIQUEÇA</div>
+
+<nav>
+<a href="index.html">Início</a>
+<a href="planejamento.html">Planejamento</a>
+<a href="calculadora.html">Calculadora</a>
+<a href="economia.html">Economia</a>
+<a href="economia-local.html">Economia Local</a>
+</nav>
+
+</header>
+
+<section class="container">
+
+<h1 class="titulo">Planejamento Financeiro Inteligente</h1>
+
+<p class="sub">
+Este guia analisa sua situação financeira e mostra exatamente como organizar
+seu dinheiro, escolher bancos e usar crédito com inteligência.
+</p>
+
+<div class="card">
+
+<div id="diagnostico"></div>
+
+<div id="plano"></div>
+
+</div>
+
+<img src="https://images.unsplash.com/photo-1560472355-536de3962603">
+
+</section>
+
+<script>
+
+let salario = Number(localStorage.getItem("salario")) || 0
+let gastos = Number(localStorage.getItem("gastos")) || 0
+
+let sobra = salario - gastos
+
+let diagnostico=""
+let plano=""
+
+if(sobra < 0){
+
+diagnostico = "🔴 Diagnóstico: você está no vermelho."
+
+plano = `
+
+<div class="etapa">
+
+<h3>Passo 1 — Parar o crescimento da dívida</h3>
+
+<p>
+Se seus gastos são maiores que sua renda, o primeiro objetivo
+é impedir que a dívida continue aumentando.
+</p>
+
+<ul class="lista">
+<li>pare de usar cartão de crédito temporariamente</li>
+<li>evite parcelamentos</li>
+<li>priorize contas essenciais</li>
+</ul>
+
+</div>
+
+<div class="etapa">
+
+<h3>Passo 2 — Renegociar dívidas</h3>
+
+<div class="box">
+
+<b>Como fazer:</b>
+
+<br>1. entre no aplicativo do banco
+<br>2. procure "renegociação"
+<br>3. escolha parcelas menores
+
+</div>
+
+<div class="banco">
+<strong>Nubank</strong><br>
+negociação simples diretamente no aplicativo
+</div>
+
+<div class="banco">
+<strong>Banco Inter</strong><br>
+juros menores em renegociações
+</div>
+
+<div class="banco">
+<strong>Itaú</strong><br>
+frequentemente oferece descontos em programas de negociação
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Erros que você deve evitar</h3>
+
+<div class="box">
+
+• pagar apenas mínimo do cartão  
+• fazer novos parcelamentos  
+• ignorar dívidas esperando que sumam  
+
+</div>
+
+</div>
+
+`
+
+}
+
+else if(sobra < salario*0.1){
+
+diagnostico="🟠 Diagnóstico: situação financeira frágil."
+
+plano=`
+
+<div class="etapa">
+
+<h3>Construir reserva de emergência</h3>
+
+<p>
+A reserva de emergência evita que problemas financeiros
+se transformem em dívidas.
+</p>
+
+<div class="box">
+
+<b>Meta recomendada:</b>
+
+<br>guardar entre 3 e 6 salários.
+
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Onde guardar esse dinheiro</h3>
+
+<div class="banco">
+
+<strong>Nubank</strong>
+
+<br>vantagens:
+<br>• rendimento automático
+<br>• interface simples
+
+</div>
+
+<div class="banco">
+
+<strong>Banco Inter</strong>
+
+<br>vantagens:
+<br>• conta gratuita
+<br>• investimentos integrados
+
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Regra simples de organização financeira</h3>
+
+<div class="box">
+
+50% necessidades  
+30% qualidade de vida  
+20% poupança ou investimento
+
+</div>
+
+</div>
+
+`
+
+}
+
+else if(sobra < salario*0.3){
+
+diagnostico="🟡 Diagnóstico: situação financeira estável."
+
+plano=`
+
+<div class="etapa">
+
+<h3>Agora você pode começar a investir</h3>
+
+<p>
+Com uma sobra mensal consistente, é possível começar
+a construir patrimônio ao longo dos anos.
+</p>
+
+</div>
+
+<div class="etapa">
+
+<h3>Investimentos recomendados para iniciantes</h3>
+
+<div class="box">
+
+• Tesouro Selic (baixo risco)  
+• CDB com liquidez diária  
+• fundos simples de renda fixa  
+
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Melhores bancos para investir</h3>
+
+<div class="banco">
+
+<strong>Banco Inter</strong>
+
+<br>vantagens:
+<br>• plataforma completa
+<br>• diversos investimentos
+
+</div>
+
+<div class="banco">
+
+<strong>Nubank</strong>
+
+<br>vantagens:
+<br>• muito simples para iniciantes
+
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Regra básica de investimento</h3>
+
+<div class="box">
+
+invista entre 10% e 20% da renda todos os meses.
+
+</div>
+
+</div>
+
+`
+
+}
+
+else{
+
+diagnostico="🟢 Diagnóstico: excelente controle financeiro."
+
+plano=`
+
+<div class="etapa">
+
+<h3>Acelerar construção de patrimônio</h3>
+
+<div class="box">
+
+invista 30% ou mais da renda mensal.
+
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Investimentos mais avançados</h3>
+
+<ul class="lista">
+
+<li>fundos imobiliários</li>
+<li>ações que pagam dividendos</li>
+<li>ETFs internacionais</li>
+
+</ul>
+
+</div>
+
+<div class="etapa">
+
+<h3>Objetivo financeiro</h3>
+
+<div class="box">
+
+construir renda passiva suficiente
+para pagar suas despesas mensais.
+
+</div>
+
+</div>
+
+`
+
+}
+
+document.getElementById("diagnostico").innerHTML="<h2>"+diagnostico+"</h2>"
+document.getElementById("plano").innerHTML=plano
+
+</script>
+
+</body>
+
+</html>

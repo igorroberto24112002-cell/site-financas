@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculadora Financeira</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#0f172a,#020617);
+color:#e5e7eb;
+}
+
+/* HEADER */
+
+header{
+background:rgba(2,6,23,0.9);
+backdrop-filter:blur(10px);
+padding:20px 10%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#22c55e;
+}
+
+nav a{
+margin-left:25px;
+text-decoration:none;
+color:#e5e7eb;
+font-weight:500;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#22c55e;
+}
+
+/* CONTAINER */
+
+.container{
+padding:70px 10%;
+}
+
+.titulo{
+font-size:36px;
+margin-bottom:10px;
+}
+
+.sub{
+color:#94a3b8;
+margin-bottom:40px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+/* CARD */
+
+.card{
+background:#111827;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* INPUTS */
+
+label{
+display:block;
+margin-top:15px;
+margin-bottom:5px;
+font-size:14px;
+color:#94a3b8;
+}
+
+input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+background:#1f2937;
+color:white;
+}
+
+button{
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#16a34a;
+transform:translateY(-2px);
+}
+
+.botao-planejamento{
+margin-top:20px;
+display:none;
+text-align:center;
+}
+
+.botao-planejamento a{
+display:inline-block;
+padding:14px 22px;
+background:#3b82f6;
+color:white;
+text-decoration:none;
+border-radius:8px;
+font-weight:600;
+margin-top:15px;
+transition:0.3s;
+}
+
+.botao-planejamento a:hover{
+background:#2563eb;
+}
+
+/* RESULTADO */
+
+.resultado{
+margin-top:20px;
+line-height:1.6;
+}
+
+canvas{
+margin-top:20px;
+}
+
+/* DICAS */
+
+.dicas{
+margin-top:20px;
+background:#020617;
+padding:20px;
+border-radius:10px;
+}
+
+.dicas h4{
+color:#22c55e;
+margin-bottom:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">ENRIQUEÇA</div>
+
+<nav>
+<a href="index.html">Início</a>
+<a href="planejamento.html">Planejamento</a>
+<a href="calculadora.html">Calculadora</a>
+<a href="economia.html">Economia</a>
+<a href="economia-local.html">Economia Local</a>
+</nav>
+
+</header>
+
+<section class="container">
+
+<h1 class="titulo">Painel Financeiro</h1>
+
+<p class="sub">
+Preencha seus dados mensais para analisar sua situação financeira
+e gerar um planejamento estratégico personalizado.
+</p>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Dados financeiros</h3>
+
+<label>Salário mensal</label>
+<input id="salario">
+
+<label>Aluguel</label>
+<input id="aluguel">
+
+<label>Alimentação</label>
+<input id="alimentacao">
+
+<label>Transporte</label>
+<input id="transporte">
+
+<label>Outros gastos</label>
+<input id="outros">
+
+<button onclick="calcular()">Analisar situação</button>
+
+<div class="resultado" id="resultado"></div>
+
+<div class="botao-planejamento" id="irPlanejamento">
+
+<p>Deseja receber um planejamento financeiro estratégico baseado nesses dados?</p>
+
+<a href="planejamento.html">Gerar meu planejamento</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Distribuição de gastos</h3>
+
+<canvas id="graficoGastos"></canvas>
+
+<div class="dicas" id="dicas"></div>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+let grafico
+
+function calcular(){
+
+let salario = Number(document.getElementById("salario").value) || 0
+let aluguel = Number(document.getElementById("aluguel").value) || 0
+let alimentacao = Number(document.getElementById("alimentacao").value) || 0
+let transporte = Number(document.getElementById("transporte").value) || 0
+let outros = Number(document.getElementById("outros").value) || 0
+
+let gastos = aluguel + alimentacao + transporte + outros
+let sobra = salario - gastos
+
+/* SALVAR DADOS PARA O PLANEJAMENTO */
+
+localStorage.setItem("salario",salario)
+localStorage.setItem("gastos",gastos)
+localStorage.setItem("sobra",sobra)
+
+/* ANÁLISE */
+
+let situacao = ""
+let dica = ""
+
+if(sobra < 0){
+situacao = "⚠️ Você está gastando mais do que ganha."
+dica = "Reduza gastos imediatamente e priorize eliminar dívidas."
+}
+else if(sobra < salario*0.1){
+situacao = "Situação apertada."
+dica = "Tente aumentar sua taxa de poupança."
+}
+else if(sobra < salario*0.3){
+situacao = "Situação financeira estável."
+dica = "Você já pode começar a investir regularmente."
+}
+else{
+situacao = "Excelente controle financeiro."
+dica = "Continue investindo e construindo patrimônio."
+}
+
+document.getElementById("resultado").innerHTML=
+
+"<b>Gastos totais:</b> R$ "+gastos+"<br>"+
+"<b>Sobra mensal:</b> R$ "+sobra+"<br><br>"+situacao
+
+document.getElementById("dicas").innerHTML=
+
+"<h4>Recomendação</h4>"+dica
+
+/* MOSTRAR BOTÃO PARA PLANEJAMENTO */
+
+document.getElementById("irPlanejamento").style.display="block"
+
+/* GRÁFICO */
+
+let ctx = document.getElementById("graficoGastos").getContext("2d")
+
+if(grafico){
+grafico.destroy()
+}
+
+grafico = new Chart(ctx,{
+type:"doughnut",
+data:{
+labels:["Aluguel","Alimentação","Transporte","Outros"],
+datasets:[{
+data:[aluguel,alimentacao,transporte,outros],
+backgroundColor:[
+"#ef4444",
+"#f59e0b",
+"#3b82f6",
+"#22c55e"
+]
+}]
+}
+})
+
+}
+
+</script>
+
+</body>
+
+</html>
